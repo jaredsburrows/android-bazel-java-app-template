@@ -14,7 +14,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  */
 @RunWith(RobolectricTestRunner.class)
 public class MainActivityTest {
-
     @Test
     public void testOnCreateNotNull() {
         ActivityController<MainActivity> controller = Robolectric.buildActivity(MainActivity.class);
@@ -22,5 +21,4 @@ public class MainActivityTest {
 
         assertThat(activity).isNotNull();
     }
-
 }
