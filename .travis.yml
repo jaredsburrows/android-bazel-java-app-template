@@ -32,10 +32,10 @@ before_install:
 script:
   - bazel test //... --disk_cache=$HOME/.cache/bazel_disk_cache --show_progress_rate_limit=5
 
-cache:
-  directories:
-    - $HOME/.cache/bazel_disk_cache
-    - $HOME/.cache/coursier
+# cache:
+#   directories:
+#     - $HOME/.cache/bazel_disk_cache
+#     - $HOME/.cache/coursier
 
 branches:
   except:
