@@ -1,121 +1,86 @@
-# Android Gradle Java App Template 
+# Android Bazel Java App Template 
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-[![TravisCI OSX Build](https://img.shields.io/travis/jaredsburrows/android-gradle-java-app-template/master.svg)](https://travis-ci.org/jaredsburrows/android-gradle-java-app-template)
-[![Coveralls Code Coverage](https://img.shields.io/coveralls/jaredsburrows/android-gradle-java-app-template/master.svg?label=Code%20Coverage)](https://coveralls.io/github/jaredsburrows/android-gradle-java-app-template?branch=master)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jaredsburrows.svg?style=social)](https://twitter.com/jaredsburrows)
-
-Gradle + Android Studio + Robolectric + Espresso + Mockito + EasyMock/PowerMock + JaCoCo
 
 ## Technologies used:
 #### Build Tools:
-|Name|Description|
-|---|---|
-| [Gradle](http://gradle.org/docs/current/release-notes) | Gradle build system |
-| [Android Gradle Build Tools](http://tools.android.com/tech-docs/new-build-system) | Official Gradle Plugin |
-| [Android SDK](http://developer.android.com/tools/revisions/platforms.html#5.1) | Official SDK |
+| Name                                                                                     | Description          |
+|------------------------------------------------------------------------------------------|----------------------|
+| [Bazel](https://bazel.build)                                                             | Bazel build system   |
+| [Android SDK](http://developer.android.com/tools/revisions/platforms.html#5.1)           | Official SDK         |
 | [Android SDK Build Tools](http://developer.android.com/tools/revisions/build-tools.html) | Official Build Tools |
-| [Android Studio](http://tools.android.com/recent) or | Official IDE |
-| [Intellij](https://www.jetbrains.com/idea/download/) | Intellij IDE |
-
-#### Android Libraries:
-|Name|Description|
-|---|---|
-| [Android Support-v4](http://developer.android.com/tools/support-library/features.html#v4) | Support Library API 4+ |
-| [Android AppCompat-v7](http://developer.android.com/tools/support-library/features.html#v7-appcompat) | Support Library API 7+ |
+| [Android Studio](http://tools.android.com/recent) or                                     | Official IDE         |
+| [Intellij](https://www.jetbrains.com/idea/download/)                                     | Intellij IDE         |
 
 #### Testing Frameworks:
-|Name|Description|
-|---|---|
+| Name                                                                  | Description               |
+|-----------------------------------------------------------------------|---------------------------|
 | [Espresso](https://google.github.io/android-testing-support-library/) | Instrumentation Framework |
-| [Robolectric](https://github.com/robolectric/robolectric) | Unit Testing Framework |
-
-#### Reporting Plugins:
-|Name|Description|
-|---|---|
-| [JaCoCo](http://www.eclemma.org/jacoco/) | JaCoCo Test Coverage |
-| [Coveralls](https://coveralls.io/) | Hosts test reports published from TravisCI |
-
-#### Continuous Integration:
-|Name|Description|
-|---|---|
-| [TravisCI](http://docs.travis-ci.com/user/languages/android/) | Build Server(Builds, Tests, Publishes reports to Coveralls) |
-
-#### Publishing to Google Play:
-|Name|Description|
-|---|---|
-| [Gradle-play-publisher](https://github.com/Triple-T/gradle-play-publisher) | Publishes your app to Google Play |
+| [Robolectric](https://github.com/robolectric/robolectric)             | Unit Testing Framework    |
 
 # Getting Started:
-## `Android Studio` or `Intellij` Support(Simple):
-- **Import/Open this project with Android Studio/Intellij(click on `build.gradle`)**
-
-- **Instrumentation Tests:**
-  - Change the Build Variant Test Artifact to `Instrumentation Tests`
-  - Right click an instrumentation test located in `src/main/androidTest` and click test
-
-- **Unit Tests:**
-  - Change the Build Variant Test Artifact to `Unit Tests`
-  - Right click a unit test located in `src/main/test` and click test
+## `Android Studio` or `Intellij` Support (Simple):
+- **Import/Open this project with Android Studio/Intellij**
+  1. Install the [Bazel plugin](https://ij.bazel.build/).
+  1. In the project selection dialog, click "Import Bazel Project".
+  1. For the project view, select "Create from scratch".
+  1. Click "Finish".
 
 ## Building and Running
 
-
-This project builds with [Gradle](www.gradle.org) and the Android Build [tools](http://tools.android.com/tech-docs/new-build-system).
-
+This project builds with [Bazel](https://bazel.build), Bazel's [Android
+rules](https://docs.bazel.build/versions/master/be/android.html), and the
+Android Build [tools](http://tools.android.com/tech-docs/new-build-system).
 
 **Build the APK:**
 
-    $ gradlew assembleDebug
+    $ bazel build //src/main:template_app
 
 **Install the APK:**
 
-    $ gradlew installDebug
+    $ bazel mobile-install //src/main:template_app
+    
+or:
+
+    $ bazel build //src/main:template_app && adb install bazel-bin/src/main/template_app.apk
 
 **Run the App:**
 
-    $ gradlew runDebug
+    $ bazel mobile-install //src/main:template_app --start_app
+
+> *Note:* Expect the first build to take a few minutes, depending on your
+> machine, because Bazel's cache is clean. After Bazel downloads and builds the
+> app once, subsequent builds will be much faster.
 
 ## Testing
 
-
 **Running the Unit Tests:**
 
+The [Junit](http://junit.org/junit4/) and
+[Robolectric](https://github.com/robolectric/robolectric) tests run on the JVM,
+no need for emulators or real devices.
 
-The [Junit](http://junit.org/junit4/) and [Robolectric](https://github.com/robolectric/robolectric) tests run on the JVM, no need for emulators or real devices.
+    $ bazel test //src/test:all
 
+**Run a single unit test (`android_local_test`):**
 
-    $ gradlew testDebug
-    
-**Run a single unit test in the `debug flavor`:**
+    $ bazel test //src/test:play_services_utils_test_api_28
 
-    $ gradlew testDebug --tests="*MainActivityTest*"
+**Get the list of all `android_local_test` targets:**
 
-    
+    $ bazel query 'kind(android_local_test, //src/test/...)'
+
 **Running the Instrumentation Tests:**
 
+The
+[Espresso](https://developer.android.com/training/testing/ui-testing/espresso-testing.html)
+instrumentation tests run on the device. There is no need to launch an emulator,
+Bazel will do it automatically as part of the instrumentation test.
 
-The [Espresso](https://developer.android.com/training/testing/ui-testing/espresso-testing.html) instrumentation tests run on the device.
+This is currently only supported on Linux.
 
-    $ gradlew connectedDebugAndroidTest
+    $ bazel test //src/androidTest:main_activity_test
     
-
-## Reports
-
-
-**Generate Lint Reports:**
-
-
-The [Lint](http://developer.android.com/tools/help/lint.html) plugin generates reports based off the source code.
-
-
-    $ gradlew lintDebug
-
-
-**Generate Jacoco Test Coverage:**
-
-
-The [Jacoco](http://www.eclemma.org/jacoco/) plugin generates coverage reports based off the unit tests.
-
-
-    $ gradlew jacocoDebugReport
+Read the [Bazel docs
+here](https://docs.bazel.build/versions/master/android-instrumentation-test.html).
