@@ -30,11 +30,11 @@ before_install:
     rm -f install.sh
 
 script:
-  - bazel test //... --disk_cache=$HOME/.cache/bazel --show_progress_rate_limit=5
+  - bazel test //... --disk_cache=$HOME/.cache/bazel_disk_cache --show_progress_rate_limit=5
 
 cache:
   directories:
-    - $HOME/.cache/bazel
+    - $HOME/.cache/bazel_disk_cache
     - $HOME/.cache/coursier
 
 branches:
