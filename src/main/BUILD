@@ -1,5 +1,5 @@
 load("@rules_maven//:defs.bzl", "artifact")
-load("//:vesions.bzl", "versions")
+load("//:versions.bzl", "versions")
 
 android_binary(
     name = "template_app",
