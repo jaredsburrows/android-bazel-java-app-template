@@ -35,6 +35,7 @@ script:
 cache:
   directories:
     - $HOME/.cache/bazel
+    - $HOME/.cache/coursier
 
 branches:
   except:
