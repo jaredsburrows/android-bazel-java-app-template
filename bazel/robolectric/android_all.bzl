@@ -12,3 +12,12 @@ ROBOLECTRIC_ANDROID_ALL_JARS = {
     17: "org.robolectric:android-all:4.2.2_r1.2-robolectric-r1",
     16: "org.robolectric:android-all:4.1.2_r1-robolectric-r1",
 }
+
+def get_android_all_jars(target_sdk_version):
+    if target_sdk_version == 28:
+        return [
+            ROBOLECTRIC_ANDROID_ALL_JARS[28],
+            ROBOLECTRIC_ANDROID_ALL_JARS[27],
+        ]
+    else:
+        return [ROBOLECTRIC_ANDROID_ALL_JARS[target_sdk_version]]
