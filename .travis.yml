@@ -8,25 +8,30 @@ install:
   - yes | sdkmanager "tools" &>/dev/null
   - yes | sdkmanager "platform-tools" &>/dev/null
   - yes | sdkmanager "platforms;android-28" &>/dev/null
+  - yes | sdkmanager "build-tools;28.0.3" &>/dev/null
   # Update remaining dependencies and accept licenses
   - yes | sdkmanager --update &>/dev/null
   - yes | sdkmanager --licenses &>/dev/null
 
+before_install:
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+      OS=darwin
+    else
+      OS=linux
+    fi
+    URL="https://github.com/bazelbuild/bazel/releases/download/${V}/bazel-${V}-installer-${OS}-x86_64.sh"
+    wget -O install.sh "${URL}"
+    chmod +x install.sh
+    ./install.sh --user
+    rm -f install.sh
+
 script:
-  - ./gradlew clean testDebug lintDebug jacocoDebugReport coveralls --scan --stacktrace
+  - bazel build //...
+  - bazel test //...
 
 branches:
   except:
     - gh-pages
 
 sudo: false
-
-before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
-
-cache:
-  directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
