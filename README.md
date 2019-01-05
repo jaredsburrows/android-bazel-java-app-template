@@ -1,6 +1,7 @@
 # Android Bazel Java App Template 
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+-[![TravisCI Build](https://img.shields.io/travis/jaredsburrows/android-bazel-java-app-template/master.svg)](https://travis-ci.org/jaredsburrows/android-bazel-java-app-template)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jaredsburrows.svg?style=social)](https://twitter.com/jaredsburrows)
 
 ## Technologies used:
