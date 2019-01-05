@@ -30,8 +30,12 @@ before_install:
     rm -f install.sh
 
 script:
-  - bazel build //...
-  - bazel test //...
+  - bazel build //... --disk_cache=$HOME/.cache/bazel
+  - bazel test //... --disk_cache=$HOME/.cache/bazel
+
+cache:
+  directories:
+    - $HOME/.cache/bazel
 
 branches:
   except:
