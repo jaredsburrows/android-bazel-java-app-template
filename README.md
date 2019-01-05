@@ -68,7 +68,7 @@ no need for emulators or real devices.
 
 **Run a single unit test (`android_local_test`):**
 
-    $ bazel test //src/test:play_services_utils_test_api_28
+    $ bazel test //src/test:play_services_utils_test
 
 **Get the list of all `android_local_test` targets:**
 
