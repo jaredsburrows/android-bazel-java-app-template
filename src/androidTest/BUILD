@@ -1,5 +1,5 @@
 load("@rules_maven//:defs.bzl", "artifact")
-load("//:versions.bzl", "versions")
+load("//:versions.bzl", "versions", "targetSdkVersion")
 
 android_instrumentation_test(
     name = "main_activity_test",
@@ -14,6 +14,9 @@ android_binary(
     custom_package = "burrows.apps.example.template.instrumentation",
     instruments = "//src/main:template_app",
     manifest = "AndroidManifest.xml",
+    manifest_values = {
+        "targetSdkVersion": str(targetSdkVersion),
+    },
     deps = [
         artifact("androidx.test:runner:" + versions["androidx.test"]["runner"]),
         artifact("androidx.test:rules:" + versions["androidx.test"]["runner"]),

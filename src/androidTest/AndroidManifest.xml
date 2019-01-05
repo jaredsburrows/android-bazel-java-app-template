@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="burrows.apps.example.template.instrumentation">
 
-    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
+    <uses-sdk android:minSdkVersion="19" android:targetSdkVersion="${targetSdkVersion}" />
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>

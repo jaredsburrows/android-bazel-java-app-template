@@ -1,10 +1,13 @@
 load("@rules_maven//:defs.bzl", "artifact")
-load("//:versions.bzl", "versions")
+load("//:versions.bzl", "versions", "targetSdkVersion")
 
 android_binary(
     name = "template_app",
     custom_package = "burrows.apps.example.template",
     manifest = "AndroidManifest.xml",
+    manifest_values = {
+        "targetSdkVersion": str(targetSdkVersion),
+    },
     visibility = ["//src/androidTest:__subpackages__"],
     deps = ["//src/main:template_app_lib"],
 )

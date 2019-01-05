@@ -8,7 +8,7 @@ versions = {
     "easymock": "3.6",
     "junit": "4.12",
     "assertj": "1.7.1",
-    "robolectric": "4.0",
+    "robolectric": "4.1",
     # Nested dictionaries
     "androidx.test": {
         "runner": "1.1.0",
@@ -18,3 +18,5 @@ versions = {
         },
     },
 }
+
+targetSdkVersion = 28

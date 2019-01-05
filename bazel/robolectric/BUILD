@@ -1,23 +1,22 @@
 load("@rules_maven//:defs.bzl", "artifact")
 load("//bazel/robolectric:android_all.bzl", "ROBOLECTRIC_ANDROID_ALL_JARS")
+load("//:versions.bzl", "versions", "targetSdkVersion")
 
-ANDROID_ALL_JARS = [
-    artifact(x)
-    for x in ROBOLECTRIC_ANDROID_ALL_JARS.values()
-]
+ANDROID_ALL_JAR = artifact(ROBOLECTRIC_ANDROID_ALL_JARS[targetSdkVersion])
 
 java_library(
     name = "robolectric_and_android_all",
     data = [":robolectric-deps.properties"],
     exports = [
-        artifact("org.robolectric:robolectric:4.0"),
-    ] + ANDROID_ALL_JARS,
+        artifact("org.robolectric:robolectric:" + versions["robolectric"]),
+        ANDROID_ALL_JAR
+    ],
     visibility = ["//src/test:__subpackages__"],
 )
 
 filegroup(
     name = "android_all_jars",
-    srcs = ANDROID_ALL_JARS,
+    srcs = [ANDROID_ALL_JAR],
 )
 
 genrule(
@@ -32,3 +31,4 @@ py_binary(
     name = "gen_deps",
     srcs = ["gen_deps.py"],
 )
+
