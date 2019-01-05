@@ -1,4 +1,5 @@
 load("@rules_maven//:defs.bzl", "artifact")
+load("//:vesions.bzl", "versions")
 
 android_binary(
     name = "template_app",
@@ -21,15 +22,15 @@ android_library(
 android_library(
     name = "external_deps",
     exports = [
-        artifact("com.google.android.material:material:1.0.0"),
-        artifact("com.google.android.gms:play-services-ads:15.0.0"),
-        artifact("com.google.android.gms:play-services-basement:15.0.0"),
-        artifact("com.google.android.gms:play-services-base:15.0.0"),
-        artifact("androidx.annotation:annotation:1.0.0"),
-        artifact("androidx.cardview:cardview:1.0.0"),
-        artifact("androidx.appcompat:appcompat:1.0.0"),
-        artifact("com.google.android.gms:play-services-ads-lite:15.0.0"),
-        artifact("androidx.recyclerview:recyclerview:1.0.0"),
-        artifact("androidx.fragment:fragment:1.0.0"),
+        artifact("com.google.android.material:material:" + versions["material"]),
+        artifact("com.google.android.gms:play-services-ads:" + versions["gps"]),
+        artifact("com.google.android.gms:play-services-ads-lite:" + versions["gps"]),
+        artifact("com.google.android.gms:play-services-basement:" + versions["gps"]),
+        artifact("com.google.android.gms:play-services-base:" + versions["gps"]),
+        artifact("androidx.annotation:annotation:" + versions["annotation"]),
+        artifact("androidx.cardview:cardview:" + versions["cardview"]),
+        artifact("androidx.appcompat:appcompat:" + versions["material"]),
+        artifact("androidx.recyclerview:recyclerview:" + versions["material"]),
+        artifact("androidx.fragment:fragment:" + versions["material"]),
     ],
 )
