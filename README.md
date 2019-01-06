@@ -16,6 +16,11 @@ Bazel + Android Studio + Robolectric + Espresso + Mockito + EasyMock/PowerMock
 | [Android Studio](http://tools.android.com/recent) or                                     | Official IDE         |
 | [Intellij](https://www.jetbrains.com/idea/download/)                                     | Intellij IDE         |
 
+#### Continuous Integration:
+| Name                                                          | Description                                                 |
+|---------------------------------------------------------------|-------------------------------------------------------------|
+| [TravisCI](http://docs.travis-ci.com/user/languages/android/) | Build Server(Builds, Tests, Publishes reports to Coveralls) |
+
 #### Testing Frameworks:
 | Name                                                                  | Description               |
 |-----------------------------------------------------------------------|---------------------------|
