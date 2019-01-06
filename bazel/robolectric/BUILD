@@ -8,6 +8,7 @@ java_library(
     name = "robolectric_and_android_all",
     data = [":robolectric-deps.properties"],
     exports = [
+        artifact("androidx.test.ext:junit:" + versions["androidx.test"]["ext"]["junit"]),
         artifact("org.robolectric:robolectric:" + versions["robolectric"]),
     ] + ANDROID_ALL_JARS,
     visibility = ["//src/test:__subpackages__"],

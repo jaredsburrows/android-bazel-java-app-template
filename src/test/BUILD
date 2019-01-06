@@ -12,7 +12,6 @@ android_local_test(
     deps = [
         "//bazel/robolectric:robolectric_and_android_all",
         "//src/main:template_app_lib",
-        artifact("androidx.test.ext:junit:" + versions["androidx.test"]["ext"]["junit"]),
         artifact("org.assertj:assertj-core:" + versions["assertj"]),
         artifact("org.robolectric.shadows:framework:" + versions["robolectric"]),
     ],
