@@ -1,11 +1,12 @@
 package burrows.apps.example.template.activity;
 
 import android.app.Activity;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.android.controller.ActivityController;
+
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
