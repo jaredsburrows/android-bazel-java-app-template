@@ -2,12 +2,14 @@ android_sdk_repository(name = "androidsdk")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-RULES_MAVEN_COMMIT = "0.0.4"
+RULES_MAVEN_TAG = "0.0.5"
+RULES_MAVEN_SHA = "ee8b989efdcc886aa86290b7db6d4c05b339ab739d38f34091d93d22ab8f7c4c"
 
 http_archive(
     name = "rules_maven",
-    strip_prefix = "rules_maven-%s" % RULES_MAVEN_COMMIT,
-    url = "https://github.com/jin/rules_maven/archive/%s.zip" % RULES_MAVEN_COMMIT,
+    strip_prefix = "rules_maven-%s" % RULES_MAVEN_TAG,
+    sha256 = RULES_MAVEN_SHA,
+    url = "https://github.com/jin/rules_maven/archive/%s.zip" % RULES_MAVEN_TAG,
 )
 
 load("@rules_maven//:defs.bzl", "maven_install")
@@ -38,8 +40,9 @@ maven_install(
         "androidx.annotation:annotation:" + versions["annotation"],
     ] + TEST_DEPS,
     repositories = [
-        "https://bintray.com/bintray/jcenter",
+        "https://jcenter.bintray.com",
         "https://maven.google.com",
+        "https://repo1.maven.org/maven2",
     ],
 )
 
