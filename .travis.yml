@@ -1,7 +1,9 @@
 language: android
 
-jdk:
-  - oraclejdk8
+matrix:
+  include:
+    - dist: trusty
+      jdk: oraclejdk8
 
 install:
   # Download SDK
