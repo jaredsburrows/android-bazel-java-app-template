@@ -5,6 +5,9 @@ matrix:
     - dist: trusty
       jdk: oraclejdk8
 
+env:
+  - BAZEL_VERSION=0.27.0
+
 install:
   # Download SDK
   - yes | sdkmanager "tools" &>/dev/null
@@ -14,29 +17,19 @@ install:
   # Update remaining dependencies and accept licenses
   - yes | sdkmanager --update &>/dev/null
   - yes | sdkmanager --licenses &>/dev/null
-
-env:
-  - BAZEL_VERSION=0.21.0
-
-before_install:
-  - |
-    if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
-      OS=darwin
-    else
-      OS=linux
-    fi
-    URL="https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-installer-${OS}-x86_64.sh"
-    wget -O install.sh "${URL}"
-    chmod +x install.sh
-    ./install.sh --user
-    rm -f install.sh
+  - sudo apt-get install libstdc++6
+  - sudo apt-get update -qq
+  - sudo apt-get install -y netcat-traditional
+  - sudo update-alternatives --set nc /bin/nc.traditional
+  - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  - URL="https://github.com/bazelbuild/bazel/releases/download/${BAZEL_VERSION}/bazel-${BAZEL_VERSION}-installer-linux-x86_64.sh"
+  - wget -O install.sh "${URL}"
+  - chmod +x install.sh
+  - ./install.sh --user
+  - rm -f install.sh
 
 script:
-  - |
-    bazel test //... \
-      --disk_cache=$HOME/.cache/bazel_disk_cache \
-      --show_progress_rate_limit=5 \
-      --test_output=errors
+  - bazel test //... --disk_cache=$HOME/.cache/bazel_disk_cache --show_progress_rate_limit=5 --test_output=errors
 
 cache:
   directories:
@@ -47,4 +40,4 @@ branches:
   except:
     - gh-pages
 
-sudo: false
+sudo: required
