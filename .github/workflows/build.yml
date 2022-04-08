@@ -1,0 +1,61 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [ opened, labeled, unlabeled, synchronize ]
+
+jobs:
+  jvm:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level:
+          - 23
+          - 31
+        java-version:
+          - 11
+          - 17
+
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2.4.0
+
+      - name: Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: "~/.cache/bazel"
+          key: bazel
+
+      - name: Configure JDK
+        uses: actions/setup-java@v2.5.0
+        with:
+          distribution: temurin
+          java-version: ${{ matrix.java-version }}
+
+      - name: Run Build
+        run: bazel build //... --disk_cache=$HOME/.cache/bazel_disk_cache --show_progress_rate_limit=5 --test_output=errors
+
+      - name: Run Tests
+        uses: reactivecircus/android-emulator-runner@v2.23.0
+        if: matrix.api-level == '23'
+        continue-on-error: true
+        with:
+          api-level: ${{ matrix.api-level }}
+          script:  bazel test //... --disk_cache=$HOME/.cache/bazel_disk_cache --show_progress_rate_limit=5 --test_output=errors
+        env:
+          API_LEVEL: ${{ matrix.api-level }}
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2.3.1
+        if: always()
+        with:
+          name: android-bazel-java-app-template-${{ github.workflow }}-${{ github.run_id }}
+          path: |
+            bazel-bin//src/main/template_app.apk
+          if-no-files-found: warn
+

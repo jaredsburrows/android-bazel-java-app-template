@@ -1,25 +1,59 @@
-android_sdk_repository(name = "androidsdk")
-
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:jvm.bzl", "jvm_maven_import_external")
+load("//:versions.bzl", "versions")
 
+android_sdk_repository(name = "androidsdk", build_tools_version = "30.0.3") # resolve dx error
+
+ATS_TAG = "1edfdab3134a7f01b37afabd3eebfd2c5bb05151"
+ATS_SHA256 = "dcd1ff76aef1a26329d77863972780c8fe1fc8ff625747342239f0489c2837ec"
 RULES_MAVEN_TAG = "0.0.5"
 RULES_MAVEN_SHA = "ee8b989efdcc886aa86290b7db6d4c05b339ab739d38f34091d93d22ab8f7c4c"
+RULES_JVM_EXTERNAL_TAG = "3.1"
+RULES_JVM_EXTERNAL_SHA = "e246373de2353f3d34d35814947aa8b7d0dd1a58c2f7a6c41cfeaff3007c2d14"
 
 http_archive(
-    name = "rules_maven",
-    strip_prefix = "rules_maven-%s" % RULES_MAVEN_TAG,
-    sha256 = RULES_MAVEN_SHA,
-    url = "https://github.com/jin/rules_maven/archive/%s.zip" % RULES_MAVEN_TAG,
+    name = "build_bazel_rules_android",
+    urls = ["https://github.com/bazelbuild/rules_android/archive/v0.1.1.zip"],
+    sha256 = "cd06d15dd8bb59926e4d65f9003bfc20f9da4b2519985c27e190cddc8b7a7806",
+    strip_prefix = "rules_android-0.1.1",
 )
 
-load("@rules_maven//:defs.bzl", "maven_install")
-load("//bazel/robolectric:android_all.bzl", "ROBOLECTRIC_ANDROID_ALL_JARS")
-load("//:versions.bzl", "versions")
+http_archive(
+    name = "android_test_support",
+    sha256 = ATS_SHA256,
+    strip_prefix = "android-test-%s" % ATS_TAG,
+    urls = ["https://github.com/android/android-test/archive/%s.tar.gz" % ATS_TAG],
+)
+
+load("@android_test_support//:repo.bzl", "android_test_repositories")
+
+android_test_repositories()
+
+http_archive(
+    name = "robolectric",
+    urls = ["https://github.com/robolectric/robolectric-bazel/archive/4.7.3.tar.gz"],
+    strip_prefix = "robolectric-bazel-4.7.3",
+)
+
+load("@robolectric//bazel:robolectric.bzl", "robolectric_repositories")
+
+robolectric_repositories()
+
+http_archive(
+    name = "rules_jvm_external",
+    sha256 = RULES_JVM_EXTERNAL_SHA,
+    strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
+    url = "https://github.com/bazelbuild/rules_jvm_external/archive/%s.zip" % RULES_JVM_EXTERNAL_TAG,
+)
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
 
 TEST_DEPS = [
     "org.robolectric:robolectric:" + versions["robolectric"],
     "org.assertj:assertj-core:" + versions["assertj"],
     "junit:junit:" + versions["junit"],
+    "androidx.test:annotation:" + versions["androidx.test"]["annotation"],
+    "androidx.test:core:" + versions["androidx.test"]["core"],
     "androidx.test:runner:" + versions["androidx.test"]["runner"],
     "androidx.test:rules:" + versions["androidx.test"]["rules"],
     "androidx.test.ext:junit:" + versions["androidx.test"]["ext"]["junit"],
@@ -28,7 +62,7 @@ TEST_DEPS = [
     "org.powermock:powermock-core:" + versions["powermock"],
     "org.powermock:powermock-module-junit4:" + versions["powermock"],
     "org.powermock:powermock-api-easymock:" + versions["powermock"],
-] + ROBOLECTRIC_ANDROID_ALL_JARS.values()
+]
 
 maven_install(
     artifacts = [
@@ -40,20 +74,8 @@ maven_install(
         "androidx.annotation:annotation:" + versions["annotation"],
     ] + TEST_DEPS,
     repositories = [
-        "https://jcenter.bintray.com",
         "https://maven.google.com",
         "https://repo1.maven.org/maven2",
     ],
 )
 
-ATS_COMMIT = "6ec000c66e1daabb9cd0abd29c265550df5c11b1"
-
-http_archive(
-    name = "android_test_support",
-    strip_prefix = "android-test-%s" % ATS_COMMIT,
-    urls = ["https://github.com/jin/android-test/archive/%s.tar.gz" % ATS_COMMIT],
-)
-
-load("@android_test_support//:repo.bzl", "android_test_repositories")
-
-android_test_repositories()

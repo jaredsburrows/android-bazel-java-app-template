@@ -1,5 +1,6 @@
-load("@rules_maven//:defs.bzl", "artifact")
+load("@rules_jvm_external//:defs.bzl", "artifact")
 load("//:versions.bzl", "versions", "targetSdkVersion")
+load("@build_bazel_rules_android//android:rules.bzl", "android_local_test")
 
 android_local_test(
     name = "main_activity_test",
@@ -10,8 +11,15 @@ android_local_test(
     },
     test_class = "burrows.apps.example.template.activity.MainActivityTest",
     deps = [
-        "//bazel/robolectric:robolectric_and_android_all",
+        "@maven//:org_robolectric_robolectric",
+        "@robolectric//bazel:android-all",
         "//src/main:template_app_lib",
+        artifact("androidx.annotation:annotation:" + versions["annotation"]),
+        artifact("androidx.test:annotation:" + versions["annotation"]),
+        artifact("androidx.test:core:" + versions["androidx.test"]["core"]),
+        artifact("androidx.test:runner:" + versions["androidx.test"]["runner"]),
+        artifact("androidx.test:rules:" + versions["androidx.test"]["rules"]),
+        artifact("androidx.test.ext:junit:" + versions["androidx.test"]["annotation"]),
         artifact("org.assertj:assertj-core:" + versions["assertj"]),
         artifact("org.robolectric.shadows:framework:" + versions["robolectric"]),
     ],
@@ -26,8 +34,9 @@ android_local_test(
     },
     test_class = "burrows.apps.example.template.util.AdUtilsTest",
     deps = [
-        "//bazel/robolectric:robolectric_and_android_all",
-        "//src/main:template_app_lib",
+        "@maven//:org_robolectric_robolectric",
+        "@robolectric//bazel:android-all",
+	"//src/main:template_app_lib",
         artifact("org.hamcrest:hamcrest-library:1.3"),
         artifact("com.google.android.gms:play-services-ads-lite:" + versions["gps"]),
     ],
@@ -42,7 +51,8 @@ android_local_test(
     },
     test_class = "burrows.apps.example.template.util.PlayServicesUtilsTest",
     deps = [
-        "//bazel/robolectric:robolectric_and_android_all",
+        "@maven//:org_robolectric_robolectric",
+        "@robolectric//bazel:android-all",
         "//src/main:template_app_lib",
         artifact("androidx.annotation:annotation:" + versions["annotation"]),
         artifact("org.hamcrest:hamcrest-library:1.3"),
