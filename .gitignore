@@ -110,3 +110,4 @@ gradle-app.setting
 .aswb/
 bazel-*
 .ijwb
+.DS_Store

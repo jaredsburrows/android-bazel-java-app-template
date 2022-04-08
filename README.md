@@ -1,7 +1,7 @@
 # Android Bazel Java App Template 
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-[![TravisCI Build](https://img.shields.io/travis/jaredsburrows/android-bazel-java-app-template/master.svg)](https://travis-ci.org/jaredsburrows/android-bazel-java-app-template)
+[![Build](https://github.com/jaredsburrows/android-bazel-java-app-template/actions/workflows/build.yml/badge.svg)](https://github.com/jaredsburrows/android-bazel-java-app-template/actions/workflows/build.yml)
 [![Twitter Follow](https://img.shields.io/twitter/follow/jaredsburrows.svg?style=social)](https://twitter.com/jaredsburrows)
 
 Bazel + Android Studio + Robolectric + Espresso + Mockito + EasyMock/PowerMock
@@ -15,11 +15,6 @@ Bazel + Android Studio + Robolectric + Espresso + Mockito + EasyMock/PowerMock
 | [Android SDK Build Tools](http://developer.android.com/tools/revisions/build-tools.html) | Official Build Tools |
 | [Android Studio](http://tools.android.com/recent) or                                     | Official IDE         |
 | [Intellij](https://www.jetbrains.com/idea/download/)                                     | Intellij IDE         |
-
-#### Continuous Integration:
-| Name                                                          | Description                                                 |
-|---------------------------------------------------------------|-------------------------------------------------------------|
-| [TravisCI](http://docs.travis-ci.com/user/languages/android/) | Build Server(Builds, Tests, Publishes reports to Coveralls) |
 
 #### Testing Frameworks:
 | Name                                                                  | Description               |
@@ -92,3 +87,4 @@ This is currently only supported on Linux.
     
 Read the [Bazel docs
 here](https://docs.bazel.build/versions/master/android-instrumentation-test.html).
+
