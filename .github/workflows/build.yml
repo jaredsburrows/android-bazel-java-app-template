@@ -32,7 +32,7 @@ jobs:
           key: bazel
 
       - name: Configure JDK
-        uses: actions/setup-java@v2.5.0
+        uses: actions/setup-java@v3.11.0
         with:
           distribution: temurin
           java-version: ${{ matrix.java-version }}
