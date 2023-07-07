@@ -51,7 +51,7 @@ jobs:
           API_LEVEL: ${{ matrix.api-level }}
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2.3.1
+        uses: actions/upload-artifact@v3.1.2
         if: always()
         with:
           name: android-bazel-java-app-template-${{ github.workflow }}-${{ github.run_id }}
